@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import NeonStrikerGame from "@/components/NeonStrikerGame";
 
 type Screen = "auth" | "main";
 type AuthMode = "login" | "register";
@@ -68,6 +69,7 @@ export default function Index() {
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState<string>("Гость");
   const [isGuest, setIsGuest] = useState(false);
+  const [playingNeonStriker, setPlayingNeonStriker] = useState(false);
 
   const handleLogin = () => {
     if (username || email) {
@@ -220,6 +222,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-dark-bg bg-grid">
+      {playingNeonStriker && <NeonStrikerGame onClose={() => setPlayingNeonStriker(false)} />}
       <header className="sticky top-0 z-50 glass-card border-b border-dark-border px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -343,8 +346,11 @@ export default function Index() {
                       </div>
                     </div>
 
-                    <button className="btn-neon w-full py-2 rounded-sm text-xs tracking-widest">
-                      Играть
+                    <button
+                      className={`w-full py-2 rounded-sm text-xs tracking-widest ${game.id === 1 ? "btn-solid-cyan animate-pulse-neon" : "btn-neon"}`}
+                      onClick={game.id === 1 ? () => setPlayingNeonStriker(true) : undefined}
+                    >
+                      {game.id === 1 ? "▶ ИГРАТЬ" : "Скоро"}
                     </button>
                   </div>
                 </div>
